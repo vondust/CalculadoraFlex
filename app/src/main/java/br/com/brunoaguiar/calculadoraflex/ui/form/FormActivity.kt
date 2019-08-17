@@ -3,8 +3,11 @@ package br.com.brunoaguiar.calculadoraflex.ui.form
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import br.com.brunoaguiar.calculadoraflex.R
 import br.com.brunoaguiar.calculadoraflex.model.CarData
+import br.com.brunoaguiar.calculadoraflex.ui.login.LoginActivity
 import br.com.brunoaguiar.calculadoraflex.ui.result.ResultActivity
 import br.com.brunoaguiar.calculadoraflex.watchers.DecimalTextWatcher
 import com.google.firebase.auth.FirebaseAuth
@@ -18,6 +21,7 @@ class FormActivity : AppCompatActivity() {
     private lateinit var userId: String
     private lateinit var mAuth: FirebaseAuth
     private val firebaseReferenceNode = "CarData"
+    private val defaultClearValueText = "0.0"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,5 +79,38 @@ class FormActivity : AppCompatActivity() {
                 override fun onCancelled(error: DatabaseError) {
                 }
             })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.form_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.getItemId()) {
+            R.id.action_clear -> {
+                clearData()
+                return true
+            }
+            R.id.action_logout -> {
+                logout()
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun clearData() {
+        etGasPrice.setText(defaultClearValueText)
+        etEthanolPrice.setText(defaultClearValueText)
+        etGasAverage.setText(defaultClearValueText)
+        etEthanolAverage.setText(defaultClearValueText)
+    }
+
+    private fun logout() {
+        mAuth.signOut()
+        startActivity(Intent(this, LoginActivity::class.java))
+        finish()
     }
 }

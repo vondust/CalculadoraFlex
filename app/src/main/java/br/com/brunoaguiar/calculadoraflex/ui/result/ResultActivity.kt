@@ -26,10 +26,10 @@ class ResultActivity : AppCompatActivity() {
     }
 
     private fun calculate() {
-        val gasPrice = intent.extras?.getDouble("GAS_PRICE") ?: 1.0
+        val gasPrice = intent.extras?.getDouble("GAS_PRICE") ?: 0.0
         val ethanolPrice = intent.extras?.getDouble("ETHANOL_PRICE") ?: 0.0
         val gasAverage = intent.extras?.getDouble("GAS_AVERAGE") ?: 1.0
-        val ethanolAverage = intent.extras?.getDouble("ETHANOL_AVERAGE") ?: 0.0
+        val ethanolAverage = intent.extras?.getDouble("ETHANOL_AVERAGE") ?: 1.0
         val performanceOfMyCar = ethanolAverage.div(gasAverage)
         val priceOfFuelIndice = ethanolPrice.div(gasPrice)
 
